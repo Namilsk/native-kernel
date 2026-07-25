@@ -1,0 +1,16 @@
+post_install() {
+    post_upgrade "$1"
+}
+
+post_upgrade() {
+    depmod "$1"
+
+    if command -v mkinitcpio >/dev/null 2>&1; then
+        mkinitcpio -p linux-native
+    fi
+}
+
+post_remove() {
+    rm -f /boot/initramfs-native.img
+    rm -f /boot/initramfs-native-fallback.img
+}
